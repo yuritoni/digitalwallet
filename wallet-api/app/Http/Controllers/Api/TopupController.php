@@ -1,0 +1,3 @@
+<?php
+namespace App\Http\Controllers\Api; use App\Http\Controllers\Controller; use Illuminate\Http\Request;
+class TopupController extends Controller{ public function store(Request $request){$data=$request->validate(['amount'=>'required|numeric|min:1000','payment_method'=>'nullable|string']);$topup=$request->user()->topups()->create(['amount'=>$data['amount'],'payment_method'=>$data['payment_method']??'manual_transfer','status'=>'pending','reference_no'=>'TU'.date('YmdHis').random_int(1000,9999)]);return response()->json(['status'=>true,'message'=>'Top up menunggu approval admin','topup'=>$topup]);}}
